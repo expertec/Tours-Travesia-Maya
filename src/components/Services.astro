@@ -1,0 +1,151 @@
+---
+import ServiceIcon from './ServiceIcon';
+
+const services = [
+  {
+    icon: "car",
+    title: "Renta de Autos",
+    description: "Vehículos modernos y limpios: Sedán, camionetas, Van, Hiace y Sprinter",
+    features: ["Unidades nuevas", "Seguro incluido", "Entrega a domicilio", "Planes de pago disponibles"],
+    color: "amber"
+  },
+  {
+    icon: "plane",
+    title: "Traslados",
+    description: "Aeropuerto Mérida - Hotel, Riviera Maya, Aeropuerto Cancún y Campeche",
+    features: ["Puntualidad garantizada", "Servicio puerta a puerta", "Choferes experimentados", "Monitoreo de vuelos"],
+    color: "orange"
+  },
+  {
+    icon: "briefcase",
+    title: "Servicio a Disposición",
+    description: "Transporte ejecutivo personalizado para tus necesidades",
+    features: ["Servicio personalizado", "Horarios flexibles", "Choferes profesionales", "Comodidad total"],
+    color: "yellow"
+  },
+  {
+    icon: "map",
+    title: "Tours Privados",
+    description: "Sin límite de tiempo en Yucatán, Campeche y Quintana Roo",
+    features: ["Arma tu propio tour", "Guías especializados", "Sin prisas ni límites", "Experiencia única"],
+    color: "emerald",
+    highlight: true
+  },
+  {
+    icon: "home",
+    title: "Renta de Casas Airbnb",
+    description: "Alojamiento cómodo y bien ubicado para tu estancia",
+    features: ["Propiedades verificadas", "Buenas ubicaciones", "Precios competitivos", "Atención personalizada"],
+    color: "blue"
+  },
+  {
+    icon: "palmtree",
+    title: "Paquetes Todo Incluido",
+    description: "Riviera Maya y Cancún con todo organizado para ti",
+    features: ["Todo organizado", "Hospedaje incluido", "Actividades planeadas", "Sin preocupaciones"],
+    color: "cyan"
+  }
+];
+---
+
+<section id="servicios" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        Nuestros <span class="text-amber-500">Servicios</span>
+      </h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Soluciones completas para hacer de tu visita a Yucatán una experiencia inolvidable
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {services.map((service) => (
+        <div class={`
+          group relative bg-gradient-to-br from-${service.color}-50 to-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2
+          ${service.highlight ? 'ring-4 ring-amber-500 ring-opacity-50' : ''}
+        `}>
+          {service.highlight && (
+            <div class="absolute -top-4 -right-4 bg-amber-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+              ¡Exclusivo!
+            </div>
+          )}
+
+          <div class="flex justify-center mb-4">
+            <ServiceIcon iconName={service.icon} className="w-16 h-16 text-amber-500" client:load />
+          </div>
+
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">
+            {service.title}
+          </h3>
+
+          <p class="text-gray-600 mb-6">
+            {service.description}
+          </p>
+
+          <ul class="space-y-2 mb-6">
+            {service.features.map((feature) => (
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-amber-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-gray-700 text-sm">{feature}</span>
+              </li>
+            ))}
+          </ul>
+
+          <a href="#contacto" class={`
+            inline-flex items-center justify-center w-full bg-${service.color}-500 hover:bg-${service.color}-600 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 group-hover:scale-105
+          `}>
+            Solicitar Info
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <!-- Special Features Banner -->
+    <div class="mt-16 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-8 md:p-12 text-white shadow-2xl">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div>
+          <h3 class="text-3xl font-bold mb-4">¿Por qué elegirnos?</h3>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <svg class="w-6 h-6 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span>Únicos en ofrecer tours privados sin límite de tiempo</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span>Arma tu propio tour sin compromiso</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span>Todos los medios de pago y planes de financiamiento</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span>Personal con amplio conocimiento de toda la península</span>
+            </li>
+          </ul>
+        </div>
+        <div class="text-center md:text-right">
+          <div class="text-5xl font-bold mb-2">RNT</div>
+          <p class="text-lg mb-4">Registro Nacional de Turismo</p>
+          <div class="inline-block bg-white text-amber-500 px-6 py-3 rounded-full font-bold text-lg">
+            ✓ Certificados
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

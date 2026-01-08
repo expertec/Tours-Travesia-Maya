@@ -1,0 +1,93 @@
+---
+import { Award, Clock, Star } from 'lucide-react';
+---
+
+<section id="inicio" class="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 pt-20">
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-amber-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+  </div>
+
+  <div class="container mx-auto px-4 py-20 relative z-10">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 text-gray-900 leading-tight">
+        Descubre <span class="text-amber-500">Yucatán</span> a Tu Manera
+      </h1>
+      <p class="text-xl md:text-2xl mb-8 text-gray-700 leading-relaxed">
+        Tours privados sin límite de tiempo, renta de autos y traslados en la Península de Yucatán
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+        <a href="#servicios" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+          Ver Servicios
+        </a>
+        <a href="#contacto" class="bg-white hover:bg-gray-50 text-amber-500 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 border-2 border-amber-500 transform hover:scale-105 shadow-lg hover:shadow-xl">
+          Cotizar Ahora
+        </a>
+      </div>
+
+      <!-- Features -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="flex justify-center mb-3">
+            <Award className="w-12 h-12 text-amber-500" client:load />
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">RNT Certificado</h3>
+          <p class="text-gray-600">Registro Nacional de Turismo como arrendadora y agencia de viajes</p>
+        </div>
+
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="flex justify-center mb-3">
+            <Clock className="w-12 h-12 text-amber-500" client:load />
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Disponibles 24/7</h3>
+          <p class="text-gray-600">Atención los 365 días del año para tu comodidad</p>
+        </div>
+
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="flex justify-center mb-3">
+            <Star className="w-12 h-12 text-amber-500" client:load />
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">3 Años de Experiencia</h3>
+          <p class="text-gray-600">Excelentes reseñas y clientes satisfechos</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <a href="#servicios" class="text-amber-500">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<style>
+  @keyframes blob {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+</style>
