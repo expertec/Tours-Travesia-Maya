@@ -2,13 +2,17 @@
 import { Award, Clock, Star } from 'lucide-react';
 ---
 
-<section id="inicio" class="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 pt-20">
+<section
+	id="inicio"
+	class="relative min-h-screen flex items-center justify-center bg-cover bg-center pt-20"
+	style="background-image: url('/img/herobg.jpg');"
+>
+  <div class="absolute inset-0 bg-gradient-to-br from-white/70 via-white/30 to-transparent"></div>
   <div class="absolute inset-0 overflow-hidden">
     <div class="absolute -top-40 -right-40 w-80 h-80 bg-amber-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
     <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
   </div>
-
   <div class="container mx-auto px-4 py-20 relative z-10">
     <div class="max-w-4xl mx-auto text-center">
       <h1 class="text-5xl md:text-7xl font-bold mb-6 text-gray-900 leading-tight">
@@ -22,7 +26,12 @@ import { Award, Clock, Star } from 'lucide-react';
         <a href="#servicios" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
           Ver Servicios
         </a>
-        <a href="#contacto" class="bg-white hover:bg-gray-50 text-amber-500 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 border-2 border-amber-500 transform hover:scale-105 shadow-lg hover:shadow-xl">
+        <a
+          href="https://wa.me/5219993838600?text=Hola,%20me%20interesa%20cotizar%20un%20tour"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-white hover:bg-gray-50 text-amber-500 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 border-2 border-amber-500 transform hover:scale-105 shadow-lg hover:shadow-xl"
+        >
           Cotizar Ahora
         </a>
       </div>

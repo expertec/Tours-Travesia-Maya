@@ -1,5 +1,21 @@
 ---
-import { Car, Landmark, Droplet, Waves, Building2, UtensilsCrossed, Pyramid, Bird, Gem, Castle } from 'lucide-react';
+import { Pyramid, Bird, Gem, Castle } from 'lucide-react';
+import { promises as fs } from 'fs';
+import { extname } from 'path';
+
+const galleryDir = new URL('../../public/img/galeria', import.meta.url);
+const validExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif']);
+let galleryImages = [];
+
+try {
+	const files = await fs.readdir(galleryDir);
+	galleryImages = files
+		.filter((file) => validExtensions.has(extname(file).toLowerCase()))
+		.sort()
+		.map((file) => `/img/galeria/${file}`);
+} catch (error) {
+	console.error('Error leyendo la galería', error);
+}
 ---
 
 <section id="galeria" class="py-20 bg-white">
@@ -14,84 +30,47 @@ import { Car, Landmark, Droplet, Waves, Building2, UtensilsCrossed, Pyramid, Bir
     </div>
 
     <!-- Gallery Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-      <!-- Placeholder for actual images -->
-      <div class="relative group overflow-hidden rounded-2xl shadow-lg aspect-square bg-gradient-to-br from-amber-100 to-orange-100">
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="text-center p-6">
-            <div class="flex justify-center mb-4">
-              <Car className="w-16 h-16 text-amber-600" client:load />
-            </div>
-            <p class="text-gray-700 font-semibold">Vehículos Modernos</p>
-            <p class="text-gray-600 text-sm mt-2">Sedán, Van, Hiace y Sprinter</p>
-          </div>
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      </div>
+    <div id="gallery-grid" class="grid grid-cols-1 gap-6 mb-12 sm:grid-cols-2 md:grid-cols-3">
+      {galleryImages.length ? (
+        galleryImages.map((image, index) => (
+          <button
+            type="button"
+            key={image}
+            data-image={image}
+            class="rounded-3xl bg-white p-4 shadow-2xl transition-transform duration-300 hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-amber-400/40"
+            aria-label={`Abrir imagen ${index + 1}`}
+          >
+            <img
+              src={image}
+              alt={`Galería ${index + 1}`}
+              class="w-full h-auto object-contain"
+              loading="lazy"
+              style="display: block;"
+            />
+          </button>
+        ))
+      ) : (
+        <p class="text-center text-gray-500 col-span-full">
+          No se encontraron imágenes en <code class="font-mono">public/img/galeria</code>. Agrega archivos JPG/PNG/WEBP para poblar esta sección.
+        </p>
+      )}
+    </div>
 
-      <div class="relative group overflow-hidden rounded-2xl shadow-lg aspect-square bg-gradient-to-br from-blue-100 to-cyan-100">
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="text-center p-6">
-            <div class="flex justify-center mb-4">
-              <Landmark className="w-16 h-16 text-blue-600" client:load />
-            </div>
-            <p class="text-gray-700 font-semibold">Zonas Arqueológicas</p>
-            <p class="text-gray-600 text-sm mt-2">Chichén Itzá, Uxmal, Ek Balam</p>
-          </div>
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      </div>
-
-      <div class="relative group overflow-hidden rounded-2xl shadow-lg aspect-square bg-gradient-to-br from-emerald-100 to-green-100">
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="text-center p-6">
-            <div class="flex justify-center mb-4">
-              <Droplet className="w-16 h-16 text-emerald-600" client:load />
-            </div>
-            <p class="text-gray-700 font-semibold">Cenotes</p>
-            <p class="text-gray-600 text-sm mt-2">Experiencias únicas naturales</p>
-          </div>
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      </div>
-
-      <div class="relative group overflow-hidden rounded-2xl shadow-lg aspect-square bg-gradient-to-br from-yellow-100 to-amber-100">
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="text-center p-6">
-            <div class="flex justify-center mb-4">
-              <Waves className="w-16 h-16 text-yellow-600" client:load />
-            </div>
-            <p class="text-gray-700 font-semibold">Playas</p>
-            <p class="text-gray-600 text-sm mt-2">Riviera Maya y Cancún</p>
-          </div>
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      </div>
-
-      <div class="relative group overflow-hidden rounded-2xl shadow-lg aspect-square bg-gradient-to-br from-purple-100 to-pink-100">
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="text-center p-6">
-            <div class="flex justify-center mb-4">
-              <Building2 className="w-16 h-16 text-purple-600" client:load />
-            </div>
-            <p class="text-gray-700 font-semibold">Ciudades Coloniales</p>
-            <p class="text-gray-600 text-sm mt-2">Mérida, Valladolid, Campeche</p>
-          </div>
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      </div>
-
-      <div class="relative group overflow-hidden rounded-2xl shadow-lg aspect-square bg-gradient-to-br from-orange-100 to-red-100">
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="text-center p-6">
-            <div class="flex justify-center mb-4">
-              <UtensilsCrossed className="w-16 h-16 text-orange-600" client:load />
-            </div>
-            <p class="text-gray-700 font-semibold">Gastronomía</p>
-            <p class="text-gray-600 text-sm mt-2">Sabores auténticos yucatecos</p>
-          </div>
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    <div
+      id="gallery-lightbox"
+      class="hidden fixed inset-0 z-50 items-center justify-center bg-black/70 px-4 py-10"
+      aria-hidden="true"
+    >
+      <div class="relative w-full max-w-5xl rounded-3xl bg-white/0 shadow-2xl">
+        <button
+          type="button"
+          data-close
+          class="absolute top-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-gray-900 hover:bg-white focus:outline-none"
+          aria-label="Cerrar vista ampliada"
+        >
+          &times;
+        </button>
+        <img id="gallery-lightbox-img" src="" alt="Imagen ampliada" class="w-full h-auto rounded-3xl object-contain" />
       </div>
     </div>
 
@@ -162,5 +141,47 @@ import { Car, Landmark, Droplet, Waves, Building2, UtensilsCrossed, Pyramid, Bir
         @tours_travesia_maya
       </a>
     </div>
-  </div>
+ </div>
 </section>
+
+<script type="module" client:load>
+  const galleryGrid = document.getElementById('gallery-grid');
+  const lightbox = document.getElementById('gallery-lightbox');
+  const lightboxImage = document.getElementById('gallery-lightbox-img');
+
+  const openLightbox = (src) => {
+    if (!lightbox || !lightboxImage) return;
+    lightboxImage.src = src;
+    lightbox.classList.remove('hidden');
+    lightbox.removeAttribute('aria-hidden');
+    document.body.dataset.galleryOpen = 'true';
+    document.body.classList.add('overflow-hidden');
+  };
+
+  const closeLightbox = () => {
+    if (!lightbox || !lightboxImage) return;
+    lightbox.classList.add('hidden');
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightboxImage.src = '';
+    document.body.removeAttribute('data-gallery-open');
+    document.body.classList.remove('overflow-hidden');
+  };
+
+  galleryGrid?.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[data-image]');
+    if (!trigger) return;
+    openLightbox(trigger.dataset.image);
+  });
+
+  lightbox?.addEventListener('click', (event) => {
+    if (event.target === lightbox || event.target.dataset.close !== undefined) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeLightbox();
+    }
+  });
+</script>
