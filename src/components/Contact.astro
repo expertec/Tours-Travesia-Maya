@@ -236,26 +236,49 @@
 </section>
 
 <script>
+  const whatsappNumber = '5219993838600';
   const form = document.getElementById('contact-form') as HTMLFormElement;
   const formMessage = document.getElementById('form-message');
 
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (!form) return;
 
-    // Here you would typically send the form data to a backend
-    // For now, we'll just show a success message
+    const formData = new FormData(form);
+    const name = (formData.get('name')?.toString() ?? '').trim();
+    const email = (formData.get('email')?.toString() ?? '').trim();
+    const phone = (formData.get('phone')?.toString() ?? '').trim();
+    const service = (formData.get('service')?.toString() ?? '').trim();
+    const messageBody = (formData.get('message')?.toString() ?? '').trim();
+
+    const lines = [
+      name && `Nombre: ${name}`,
+      email && `Correo: ${email}`,
+      phone && `Teléfono: ${phone}`,
+      service && `Servicio: ${service}`,
+    ].filter(Boolean);
+
+    const text = [
+      'Hola, me interesa cotizar un servicio',
+      ...lines,
+      messageBody && `Mensaje: ${messageBody}`,
+    ]
+      .filter(Boolean)
+      .join('\n');
+
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank');
+
     if (formMessage) {
       formMessage.classList.remove('hidden', 'bg-red-100', 'text-red-700');
       formMessage.classList.add('bg-green-100', 'text-green-700');
-      formMessage.textContent = '¡Gracias por tu mensaje! Te contactaremos pronto.';
-
-      // Reset form
-      form.reset();
-
-      // Hide message after 5 seconds
-      setTimeout(() => {
-        formMessage.classList.add('hidden');
-      }, 5000);
+      formMessage.textContent = 'Estamos abriendo WhatsApp con tu mensaje. ¡Gracias!';
     }
+
+    form.reset();
+
+    setTimeout(() => {
+      formMessage?.classList.add('hidden');
+    }, 5000);
   });
 </script>
