@@ -94,9 +94,16 @@ const services = [
             ))}
           </ul>
 
-          <a href="#contacto" class={`
-            inline-flex items-center justify-center w-full bg-${service.color}-500 hover:bg-${service.color}-600 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 group-hover:scale-105
-          `}>
+          <a
+            href={`https://wa.me/5219993838600?text=${encodeURIComponent(
+              `Hola, me interesa ${service.title.toLowerCase()} con Tours Travesía Maya.`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={`
+              inline-flex items-center justify-center w-full bg-${service.color}-500 hover:bg-${service.color}-600 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 group-hover:scale-105
+            `}
+          >
             Solicitar Info
             <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
