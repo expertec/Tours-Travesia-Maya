@@ -1,0 +1,575 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { promises as fs } from 'fs';
+import { extname } from 'path';
+
+const whatsappNumber = '5219993838600';
+const defaultMessage =
+  'Hola, vengo de Google Ads y quiero cotizar un servicio con Tours Travesia Maya.';
+const waHref = (message: string) =>
+  `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+const galleryDir = new URL('../../public/img/galeria', import.meta.url);
+const validExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif']);
+let galleryImages: string[] = [];
+
+try {
+  const files = await fs.readdir(galleryDir);
+  galleryImages = files
+    .filter((file) => validExtensions.has(extname(file).toLowerCase()))
+    .sort()
+    .map((file) => `/img/galeria/${file}`);
+} catch (error) {
+  console.error('No se pudo leer la galeria para /landing', error);
+}
+
+const fallbackHeroImage = '/img/galeria/f63ee731-11ac-41ba-80df-c289bd75c3b3.jpg';
+const heroCarouselImages =
+  galleryImages.length > 0
+    ? galleryImages.slice(0, Math.min(6, galleryImages.length))
+    : [fallbackHeroImage];
+
+const seoKeywords =
+  'tours privados en yucatan, traslados privados yucatan, renta de autos merida, traslado aeropuerto merida, tours y traslados yucatan, agencia de viajes merida, cotizar tour por whatsapp';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'TravelAgency',
+  name: 'Tours Travesia Maya',
+  description:
+    'Tours privados, traslados y renta de autos en Yucatan. Cotizacion rapida por WhatsApp.',
+  telephone: '+52 999 383 8600',
+  areaServed: ['Yucatan', 'Campeche', 'Quintana Roo'],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Merida',
+    addressRegion: 'Yucatan',
+    addressCountry: 'MX',
+  },
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      telephone: '+52 999 383 8600',
+      contactType: 'sales',
+      areaServed: 'MX',
+      availableLanguage: ['es'],
+    },
+  ],
+  sameAs: [
+    'https://www.facebook.com/share/1HsCAg8SBD/',
+    'https://www.instagram.com/tours_travesia_maya/',
+  ],
+};
+
+const services = [
+  {
+    title: 'Tours privados sin limite de tiempo',
+    description: 'Tu eliges destinos, tiempos y ritmo. Nosotros coordinamos todo.',
+    message:
+      'Hola, quiero cotizar un tour privado sin limite de tiempo en Yucatan.',
+  },
+  {
+    title: 'Renta de autos',
+    description: 'Sedan, SUV y vans con seguro incluido y entrega programada.',
+    message: 'Hola, quiero cotizar renta de auto en Merida.',
+  },
+  {
+    title: 'Traslados aeropuerto-hotel',
+    description: 'Servicio puntual en Merida, Cancun y Riviera Maya.',
+    message: 'Hola, quiero cotizar un traslado aeropuerto-hotel.',
+  },
+  {
+    title: 'Paquetes y servicio a disposicion',
+    description: 'Opciones completas para vacaciones, eventos o viajes ejecutivos.',
+    message: 'Hola, quiero cotizar un paquete o servicio a disposicion.',
+  },
+];
+
+const trustPoints = [
+  'Doble certificacion RNT',
+  'Atencion 24/7 los 365 dias',
+  'Unidades aseguradas',
+  'Respuesta por WhatsApp en minutos',
+];
+
+const faqs = [
+  {
+    question: 'Cuanto tarda la respuesta por WhatsApp?',
+    answer:
+      'Normalmente respondemos en minutos. Si nos escribes fuera de horario de alta demanda, te respondemos lo antes posible.',
+  },
+  {
+    question: 'Puedo personalizar mi itinerario?',
+    answer:
+      'Si. Nuestros tours privados se ajustan a tus tiempos, lugares de interes y tipo de viaje.',
+  },
+  {
+    question: 'Tienen factura y respaldo formal?',
+    answer:
+      'Si. Operamos con doble certificacion RNT y te compartimos informacion clara antes de confirmar.',
+  },
+  {
+    question: 'Que necesito para cotizar?',
+    answer:
+      'Solo fecha aproximada, numero de personas y servicio de interes. Con eso te enviamos propuesta inicial.',
+  },
+];
+---
+
+<Layout
+  title="Tours y Traslados Privados en Yucatan | Cotiza por WhatsApp"
+  description="Tours y traslados privados en Yucatan con atencion 24/7. Renta de autos, traslados aeropuerto y tours personalizados. Cotiza por WhatsApp."
+  keywords={seoKeywords}
+  ogImage={heroCarouselImages[0] || fallbackHeroImage}
+  showFloatingWhatsApp={false}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
+  </Fragment>
+
+  <div class="landing-ads bg-white text-slate-900">
+    <header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        <div class="flex items-center gap-3">
+          <img src="/img/logo.jpg" alt="Tours Travesia Maya" class="h-10 w-auto rounded-lg" />
+          <div>
+            <p class="text-sm font-bold leading-tight text-slate-900">Tours Travesia Maya</p>
+            <p class="text-xs text-slate-500">Merida, Yucatan</p>
+          </div>
+        </div>
+
+        <a
+          data-wa-cta
+          data-message={defaultMessage}
+          href={waHref(defaultMessage)}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hidden items-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-emerald-600 md:inline-flex"
+        >
+          Cotizar por WhatsApp
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <main class="pb-28 md:pb-10">
+      <section class="relative overflow-hidden border-b border-slate-200 bg-gradient-to-br from-amber-50 via-white to-orange-50">
+        <div class="absolute -top-20 right-0 h-72 w-72 rounded-full bg-amber-300/20 blur-3xl"></div>
+        <div class="absolute -bottom-16 -left-10 h-64 w-64 rounded-full bg-emerald-300/20 blur-3xl"></div>
+
+        <div class="relative mx-auto grid max-w-6xl gap-10 px-4 pb-14 pt-12 md:grid-cols-2 md:items-center md:pb-20 md:pt-16">
+          <div>
+            <h1 class="mt-4 text-4xl font-extrabold leading-tight text-slate-900 md:text-5xl">
+              Tours y Traslados Privados en Yucatán:
+              <span class="text-amber-500"> Viaja Seguro y Cómodo</span>
+            </h1>
+            <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-700 md:text-lg">
+              Tours privados sin limite de tiempo, renta de autos y traslados.
+              Recibe una propuesta clara y rapida en un solo mensaje.
+            </p>
+
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a
+                data-wa-cta
+                data-message={defaultMessage}
+                href={waHref(defaultMessage)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-7 py-4 text-base font-bold text-white transition-all duration-300 hover:bg-emerald-600 hover:shadow-xl hover:shadow-emerald-500/25"
+              >
+                Enviar mensaje ahora
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                </svg>
+              </a>
+              <a
+                href="tel:+5219993838600"
+                class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-7 py-4 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-100"
+              >
+                Llamar: 999 383 86 00
+              </a>
+            </div>
+
+            <div class="mt-7 grid gap-3 sm:grid-cols-2">
+              {trustPoints.map((item) => (
+                <p class="flex items-start gap-2 rounded-xl border border-slate-200 bg-white/80 px-3 py-2 text-sm text-slate-700 shadow-sm">
+                  <svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-500" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.7-9.3a1 1 0 10-1.4-1.4L9 10.6 7.7 9.3a1 1 0 10-1.4 1.4l2 2a1 1 0 001.4 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  {item}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl md:p-8">
+            <div class="relative h-56 w-full overflow-hidden rounded-2xl md:h-64" data-hero-carousel>
+              {heroCarouselImages.map((image, index) => (
+                <img
+                  src={image}
+                  alt={`Tours privados en Yucatan ${index + 1}`}
+                  class={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+                    index === 0 ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  data-hero-slide
+                />
+              ))}
+
+              {heroCarouselImages.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    class="absolute left-3 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white transition-colors hover:bg-black/65"
+                    aria-label="Imagen anterior"
+                    data-hero-prev
+                  >
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="absolute right-3 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white transition-colors hover:bg-black/65"
+                    aria-label="Siguiente imagen"
+                    data-hero-next
+                  >
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </button>
+
+                  <div class="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2">
+                    {heroCarouselImages.map((_, index) => (
+                      <button
+                        type="button"
+                        class={`h-2.5 w-2.5 rounded-full transition-all ${
+                          index === 0 ? 'scale-110 bg-white' : 'bg-white/55'
+                        }`}
+                        aria-label={`Ir a imagen ${index + 1}`}
+                        data-hero-dot
+                        data-index={index}
+                      ></button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
+            <h2 class="mt-5 text-2xl font-bold text-slate-900">Cotizacion rapida en 3 pasos</h2>
+            <ol class="mt-4 space-y-3 text-sm text-slate-700">
+              <li class="flex gap-3">
+                <span class="inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">1</span>
+                Comparte fecha, personas y servicio.
+              </li>
+              <li class="flex gap-3">
+                <span class="inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">2</span>
+                Recibe opciones con costos y recomendaciones.
+              </li>
+              <li class="flex gap-3">
+                <span class="inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">3</span>
+                Confirmas y nosotros coordinamos tu viaje.
+              </li>
+            </ol>
+
+            <a
+              data-wa-cta
+              data-message="Hola, quiero iniciar mi cotizacion por WhatsApp."
+              href={waHref('Hola, quiero iniciar mi cotizacion por WhatsApp.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-emerald-600"
+            >
+              Iniciar cotizacion por WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 py-16">
+        <div class="mb-10 text-center">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">Servicios</p>
+          <h2 class="mt-3 text-3xl font-extrabold text-slate-900 md:text-4xl">
+            Elige el servicio que necesitas
+          </h2>
+          <p class="mx-auto mt-3 max-w-2xl text-slate-600">
+            Todo se cotiza por WhatsApp para que tengas respuesta inmediata y personalizada.
+          </p>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2">
+          {services.map((service) => (
+            <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-lg">
+              <h3 class="text-xl font-bold text-slate-900">{service.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">{service.description}</p>
+              <a
+                data-wa-cta
+                data-message={service.message}
+                href={waHref(service.message)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-5 inline-flex items-center gap-2 rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-amber-600"
+              >
+                Cotizar este servicio
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                </svg>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 py-16">
+        <div class="mb-8 text-center">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">Galeria completa</p>
+          <h2 class="mt-3 text-3xl font-extrabold text-slate-900 md:text-4xl">
+            Todas nuestras fotos en un solo lugar
+          </h2>
+        </div>
+
+        {galleryImages.length ? (
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {galleryImages.map((image, index) => (
+              <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <img
+                  src={image}
+                  alt={`Foto de servicio ${index + 1}`}
+                  class="h-60 w-full object-cover transition-transform duration-300 hover:scale-105"
+                  loading="lazy"
+                />
+              </figure>
+            ))}
+          </div>
+        ) : (
+          <p class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-5 text-center text-sm text-slate-600">
+            Aun no hay fotos disponibles en la carpeta <code>public/img/galeria</code>.
+          </p>
+        )}
+      </section>
+
+      <section class="border-y border-slate-200 bg-slate-50 py-16">
+        <div class="mx-auto max-w-6xl px-4">
+          <div class="grid gap-8 md:grid-cols-2 md:items-center">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">Confianza</p>
+              <h2 class="mt-3 text-3xl font-extrabold text-slate-900 md:text-4xl">
+                Operacion formal y servicio confiable
+              </h2>
+              <p class="mt-4 text-slate-600">
+                Somos una empresa local en Merida con experiencia en turismo y transportacion.
+                Trabajamos con procesos claros antes de confirmar cualquier servicio.
+              </p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div class="rounded-2xl bg-white p-5 shadow-sm">
+                <p class="text-3xl font-extrabold text-amber-500">RNT</p>
+                <p class="mt-1 text-sm text-slate-600">Doble certificacion oficial</p>
+              </div>
+              <div class="rounded-2xl bg-white p-5 shadow-sm">
+                <p class="text-3xl font-extrabold text-amber-500">24/7</p>
+                <p class="mt-1 text-sm text-slate-600">Atencion todo el ano</p>
+              </div>
+              <div class="rounded-2xl bg-white p-5 shadow-sm">
+                <p class="text-3xl font-extrabold text-amber-500">+3</p>
+                <p class="mt-1 text-sm text-slate-600">Anos de experiencia</p>
+              </div>
+              <div class="rounded-2xl bg-white p-5 shadow-sm">
+                <p class="text-3xl font-extrabold text-amber-500">100%</p>
+                <p class="mt-1 text-sm text-slate-600">Cotizacion por WhatsApp</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 py-16">
+        <div class="mb-8 text-center">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">Preguntas frecuentes</p>
+          <h2 class="mt-3 text-3xl font-extrabold text-slate-900 md:text-4xl">
+            Resolvemos tus dudas antes de reservar
+          </h2>
+        </div>
+
+        <div class="mx-auto max-w-4xl space-y-3">
+          {faqs.map((faq) => (
+            <details class="group rounded-2xl border border-slate-200 bg-white p-5">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-slate-900">
+                {faq.question}
+                <span class="text-amber-500 transition-transform group-open:rotate-45">+</span>
+              </summary>
+              <p class="mt-3 text-sm leading-relaxed text-slate-600">{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section class="bg-gradient-to-r from-amber-500 to-orange-500 py-14 text-white">
+        <div class="mx-auto max-w-5xl px-4 text-center">
+          <h2 class="text-3xl font-extrabold md:text-4xl">Listo para recibir tu cotizacion?</h2>
+          <p class="mx-auto mt-3 max-w-2xl text-white/90">
+            Envia un mensaje y te ayudamos a elegir la mejor opcion para tu viaje.
+          </p>
+          <a
+            data-wa-cta
+            data-message={defaultMessage}
+            href={waHref(defaultMessage)}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-bold text-amber-600 transition-all duration-300 hover:bg-amber-50 hover:shadow-2xl"
+          >
+            Hablar por WhatsApp
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white py-6">
+      <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 text-xs text-slate-500 sm:flex-row">
+        <p>Tours Travesia Maya | Merida, Yucatan</p>
+        <p>WhatsApp: 999 383 86 00</p>
+      </div>
+    </footer>
+
+    <a
+      data-wa-cta
+      data-message={defaultMessage}
+      href={waHref(defaultMessage)}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="fixed inset-x-4 bottom-4 z-50 inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-4 text-sm font-bold text-white shadow-2xl shadow-emerald-500/30 md:hidden"
+    >
+      Cotizar por WhatsApp
+      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+      </svg>
+    </a>
+  </div>
+</Layout>
+
+<script>
+  const whatsappNumber = '5219993838600';
+  const sourceParams = new URLSearchParams(window.location.search);
+  const keys = [
+    'gclid',
+    'utm_source',
+    'utm_medium',
+    'utm_campaign',
+    'utm_term',
+    'utm_content',
+    'gad_source',
+  ];
+
+  const campaignData = keys
+    .map((key) => {
+      const value = sourceParams.get(key);
+      return value ? `${key}: ${value}` : null;
+    })
+    .filter(Boolean)
+    .join('\n');
+
+  const setWhatsAppHref = (button) => {
+    const message =
+      button.dataset.message ||
+      'Hola, vengo de Google Ads y quiero cotizar un servicio con Tours Travesia Maya.';
+    const finalMessage = campaignData
+      ? `${message}\n\nReferencia de campana:\n${campaignData}`
+      : message;
+
+    button.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(finalMessage)}`;
+  };
+
+  const trackWhatsAppClick = (label) => {
+    if (Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({
+        event: 'whatsapp_click',
+        landing: 'google_ads',
+        label,
+        page: window.location.pathname,
+      });
+    }
+
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'generate_lead', {
+        event_category: 'engagement',
+        event_label: label,
+        value: 1,
+      });
+    }
+  };
+
+  document.querySelectorAll('[data-wa-cta]').forEach((button) => {
+    setWhatsAppHref(button);
+    button.addEventListener('click', () => {
+      const label = button.textContent?.trim() || 'whatsapp_cta';
+      trackWhatsAppClick(label);
+    });
+  });
+
+  const heroCarousel = document.querySelector('[data-hero-carousel]');
+
+  if (heroCarousel) {
+    const slides = Array.from(heroCarousel.querySelectorAll('[data-hero-slide]'));
+    const dots = Array.from(heroCarousel.querySelectorAll('[data-hero-dot]'));
+    const prevButton = heroCarousel.querySelector('[data-hero-prev]');
+    const nextButton = heroCarousel.querySelector('[data-hero-next]');
+
+    if (slides.length > 1) {
+      let currentIndex = 0;
+      let intervalId;
+
+      const showSlide = (index) => {
+        currentIndex = (index + slides.length) % slides.length;
+
+        slides.forEach((slide, slideIndex) => {
+          const isActive = slideIndex === currentIndex;
+          slide.classList.toggle('opacity-100', isActive);
+          slide.classList.toggle('opacity-0', !isActive);
+        });
+
+        dots.forEach((dot, dotIndex) => {
+          const isActive = dotIndex === currentIndex;
+          dot.classList.toggle('bg-white', isActive);
+          dot.classList.toggle('scale-110', isActive);
+          dot.classList.toggle('bg-white/55', !isActive);
+        });
+      };
+
+      const startAutoPlay = () => {
+        clearInterval(intervalId);
+        intervalId = setInterval(() => {
+          showSlide(currentIndex + 1);
+        }, 4500);
+      };
+
+      prevButton?.addEventListener('click', () => {
+        showSlide(currentIndex - 1);
+        startAutoPlay();
+      });
+
+      nextButton?.addEventListener('click', () => {
+        showSlide(currentIndex + 1);
+        startAutoPlay();
+      });
+
+      dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          const index = Number(dot.dataset.index || 0);
+          showSlide(index);
+          startAutoPlay();
+        });
+      });
+
+      heroCarousel.addEventListener('mouseenter', () => clearInterval(intervalId));
+      heroCarousel.addEventListener('mouseleave', startAutoPlay);
+
+      startAutoPlay();
+    }
+  }
+</script>
