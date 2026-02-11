@@ -186,6 +186,7 @@ const faqs = [
               </a>
               <a
                 href="tel:+5219993838600"
+                data-call-cta
                 class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-7 py-4 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-100"
               >
                 Llamar: 999 383 86 00
@@ -454,6 +455,32 @@ const faqs = [
 </Layout>
 
 <script>
+  function gtag_report_conversion(url) {
+    var callback = function () {
+      if (typeof url !== 'undefined') {
+        window.location = url;
+      }
+    };
+
+    if (typeof window.gtag !== 'function') {
+      callback();
+      return false;
+    }
+
+    window.gtag('event', 'conversion', {
+      send_to: 'AW-17759387381/n2O3CIfzuPYbEPX9qpRC',
+      value: 10.0,
+      currency: 'MXN',
+      event_callback: callback,
+    });
+
+    if (typeof url !== 'undefined') {
+      window.setTimeout(callback, 1200);
+    }
+
+    return false;
+  }
+
   const whatsappNumber = '5219993838600';
   const sourceParams = new URLSearchParams(window.location.search);
   const keys = [
@@ -507,8 +534,17 @@ const faqs = [
   document.querySelectorAll('[data-wa-cta]').forEach((button) => {
     setWhatsAppHref(button);
     button.addEventListener('click', () => {
+      gtag_report_conversion();
       const label = button.textContent?.trim() || 'whatsapp_cta';
       trackWhatsAppClick(label);
+    });
+  });
+
+  document.querySelectorAll('[data-call-cta]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      const url = button.getAttribute('href') || undefined;
+      gtag_report_conversion(url);
     });
   });
 
